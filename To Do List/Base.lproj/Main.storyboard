@@ -31,7 +31,14 @@
                             <outlet property="delegate" destination="cTP-T5-cPE" id="GME-MS-lY5"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Check-off" id="TXJ-sg-IcO"/>
+                    <navigationItem key="navigationItem" title="Check-off" id="TXJ-sg-IcO">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="rfc-Gd-GYu">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="addButtonClicked:" destination="cTP-T5-cPE" id="Ajo-rK-wkR"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5wp-Yd-5wl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
