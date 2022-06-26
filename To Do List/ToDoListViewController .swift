@@ -10,10 +10,14 @@ import UIKit
 class ToDoListViewController: UITableViewController {
     
     var itemArray = ["Wash towel", "Clean pan", "Learn Swift"]
+    
+    let defaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        if let items = defaults.array(forKey: "TaskListArray") as? [String] {
+            itemArray = items
+        }
     }
 
     //MARK: - tableView delegate methods
@@ -49,8 +53,11 @@ class ToDoListViewController: UITableViewController {
         
         let alert = UIAlertController(title: "Add New Task", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add Task", style: .default) { action in
-            self.itemArray.append(textField.text!)
-            self.tableView.reloadData()
+            if (textField.text != "") {
+                self.itemArray.append(textField.text!)
+                self.defaults.set(self.itemArray, forKey: "TaskListArray")
+                self.tableView.reloadData()
+            }
         }
         
         alert.addTextField { alertTextField in
