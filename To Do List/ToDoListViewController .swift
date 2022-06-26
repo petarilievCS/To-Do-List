@@ -29,6 +29,7 @@ class ToDoListViewController: UITableViewController {
         newItem3.text = "Go to La Jolla"
         itemArray.append(newItem3)
         
+        loadItems()
     }
 
     //MARK: - tableView delegate methods
@@ -92,5 +93,15 @@ class ToDoListViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
+    func loadItems() {
+        if let data = try? Data(contentsOf: dataFilePath!) {
+            let decoder = PropertyListDecoder()
+            do {
+                itemArray = try decoder.decode([TaskItem].self, from: data)
+            } catch {
+                print("Error while decoding")
+            }
+        }
+    }
 }
 
