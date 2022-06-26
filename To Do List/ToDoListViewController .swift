@@ -12,6 +12,7 @@ class ToDoListViewController: UITableViewController {
     var itemArray = [TaskItem]()
     
     let defaults = UserDefaults.standard
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Tasks.plist")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,9 +29,6 @@ class ToDoListViewController: UITableViewController {
         newItem3.text = "Go to La Jolla"
         itemArray.append(newItem3)
         
-        /* if let items = defaults.array(forKey: "TaskListArray") as? [String] {
-            itemArray = items
-        } */
     }
 
     //MARK: - tableView delegate methods
@@ -51,7 +49,7 @@ class ToDoListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         itemArray[indexPath.row].checked = !(itemArray[indexPath.row].checked)
-        tableView.reloadData()
+        saveItems()
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -67,8 +65,7 @@ class ToDoListViewController: UITableViewController {
                 var newItem = TaskItem()
                 newItem.text = textField.text!
                 self.itemArray.append(newItem)
-                self.defaults.set(self.itemArray, forKey: "TaskListArray")
-                self.tableView.reloadData()
+                self.saveItems()
             }
         }
         
@@ -78,6 +75,21 @@ class ToDoListViewController: UITableViewController {
         }
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
+    }
+    
+    //MARK: - Data Manipulation
+    
+    func saveItems() {
+        let encoder = PropertyListEncoder()
+        
+        do {
+            let data = try encoder.encode(self.itemArray)
+            try data.write(to: self.dataFilePath!)
+        } catch {
+            print("Error while encoding")
+        }
+        
+        self.tableView.reloadData()
     }
     
 }

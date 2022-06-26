@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TaskItem {
+struct TaskItem: Encodable {
     var text: String = ""
     var checked: Bool = false
 }
