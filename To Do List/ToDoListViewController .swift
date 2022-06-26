@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ToDoListViewController: UITableViewController {
     
@@ -13,23 +14,11 @@ class ToDoListViewController: UITableViewController {
     
     let defaults = UserDefaults.standard
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Tasks.plist")
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        var newItem = TaskItem()
-        newItem.text = "Do laundry"
-        itemArray.append(newItem)
-        
-        var newItem2 = TaskItem()
-        newItem2.text = "Learn Swift"
-        itemArray.append(newItem2)
-        
-        var newItem3 = TaskItem()
-        newItem3.text = "Go to La Jolla"
-        itemArray.append(newItem3)
-        
-        loadItems()
+        // loadItems()
     }
 
     //MARK: - tableView delegate methods
@@ -63,8 +52,9 @@ class ToDoListViewController: UITableViewController {
         let alert = UIAlertController(title: "Add New Task", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add Task", style: .default) { action in
             if (textField.text != "") {
-                var newItem = TaskItem()
+                let newItem = TaskItem(context: self.context)
                 newItem.text = textField.text!
+                newItem.checked = false
                 self.itemArray.append(newItem)
                 self.saveItems()
             }
@@ -81,19 +71,17 @@ class ToDoListViewController: UITableViewController {
     //MARK: - Data Manipulation
     
     func saveItems() {
-        let encoder = PropertyListEncoder()
         
         do {
-            let data = try encoder.encode(self.itemArray)
-            try data.write(to: self.dataFilePath!)
+            try self.context.save()
         } catch {
-            print("Error while encoding")
+            print("Error while saving context")
         }
         
         self.tableView.reloadData()
     }
     
-    func loadItems() {
+    /* func loadItems() {
         if let data = try? Data(contentsOf: dataFilePath!) {
             let decoder = PropertyListDecoder()
             do {
@@ -102,6 +90,6 @@ class ToDoListViewController: UITableViewController {
                 print("Error while decoding")
             }
         }
-    }
+    } */
 }
 
