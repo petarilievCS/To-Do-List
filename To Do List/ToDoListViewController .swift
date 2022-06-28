@@ -13,12 +13,13 @@ class ToDoListViewController: UITableViewController {
     var itemArray = [TaskItem]()
     
     let defaults = UserDefaults.standard
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Tasks.plist")
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // loadItems()
+        let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        print(dataFilePath)
+        loadItems()
     }
 
     //MARK: - tableView delegate methods
@@ -38,6 +39,10 @@ class ToDoListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // delete items from CoreData
+        // context.delete(itemArray[indexPath.row])
+        // itemArray.remove(at: indexPath.row)
+        
         itemArray[indexPath.row].checked = !(itemArray[indexPath.row].checked)
         saveItems()
         tableView.deselectRow(at: indexPath, animated: true)
@@ -81,15 +86,38 @@ class ToDoListViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
-    /* func loadItems() {
-        if let data = try? Data(contentsOf: dataFilePath!) {
-            let decoder = PropertyListDecoder()
-            do {
-                itemArray = try decoder.decode([TaskItem].self, from: data)
-            } catch {
-                print("Error while decoding")
-            }
+    func loadItems(with request: NSFetchRequest<TaskItem> = TaskItem.fetchRequest()) {
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+           print("Error while fetching data")
         }
-    } */
+        tableView.reloadData()
+    }
+    
+    
 }
 
+//MARK: - Search Bar Methods
+
+extension ToDoListViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        // create request
+        let request: NSFetchRequest<TaskItem> = TaskItem.fetchRequest()
+        request.predicate = NSPredicate(format: "text CONTAINS[cd] %@", searchBar.text!)
+        
+        // sort data
+        request.sortDescriptors = [NSSortDescriptor(key: "text", ascending: true)]
+        
+        // perform request/query
+        loadItems(with: request)
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+           print("Error while fetching data")
+        }
+    }
+    
+}
