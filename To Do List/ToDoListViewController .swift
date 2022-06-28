@@ -120,4 +120,16 @@ extension ToDoListViewController: UISearchBarDelegate {
         }
     }
     
+    // reset list to original when "x" is pressed
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if (searchBar.text!.count == 0) {
+            loadItems()
+            
+            // make sure the process doesn't get sent to background thread
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
+    }
+    
 }
