@@ -14,6 +14,7 @@
 		E605F3752867C6250028BC92 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E605F3732867C6250028BC92 /* DataModel.xcdatamodeld */; };
 		E605F3772867C62A0028BC92 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E605F3762867C62A0028BC92 /* Assets.xcassets */; };
 		E605F37A2867C62A0028BC92 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E605F3782867C62A0028BC92 /* LaunchScreen.storyboard */; };
+		E6F7C0E0286AA85300248527 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F7C0DF286AA85300248527 /* ListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		E605F3762867C62A0028BC92 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E605F3792867C62A0028BC92 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E605F37B2867C62A0028BC92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E6F7C0DF286AA85300248527 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 				E605F36A2867C6250028BC92 /* AppDelegate.swift */,
 				E605F36C2867C6250028BC92 /* SceneDelegate.swift */,
 				E605F36E2867C6250028BC92 /* ToDoListViewController .swift */,
+				E6F7C0DF286AA85300248527 /* ListViewController.swift */,
 				E605F3702867C6250028BC92 /* Main.storyboard */,
 				E605F3762867C62A0028BC92 /* Assets.xcassets */,
 				E605F3782867C62A0028BC92 /* LaunchScreen.storyboard */,
@@ -152,6 +155,7 @@
 				E605F36F2867C6250028BC92 /* ToDoListViewController .swift in Sources */,
 				E605F36B2867C6250028BC92 /* AppDelegate.swift in Sources */,
 				E605F36D2867C6250028BC92 /* SceneDelegate.swift in Sources */,
+				E6F7C0E0286AA85300248527 /* ListViewController.swift in Sources */,
 				E605F3752867C6250028BC92 /* DataModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

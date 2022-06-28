@@ -34,7 +34,6 @@ class ToDoListViewController: UITableViewController {
         let taskItem = itemArray[indexPath.row]
         cell.textLabel?.text = taskItem.text
         cell.accessoryType = taskItem.checked ? .checkmark : .none
-       
         return cell
     }
     
