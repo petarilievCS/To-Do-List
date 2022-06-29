@@ -7,9 +7,8 @@
 
 import UIKit
 import CoreData
-import SwipeCellKit
 
-class ListViewController: UITableViewController {
+class ListViewController: SwipeTableViewController {
     
     var listArray = [List]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -27,9 +26,8 @@ class ListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath) as! SwipeTableViewCell
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         cell.textLabel?.text = listArray[indexPath.row].title
-        cell.delegate = self
         return cell
     }
     
@@ -51,6 +49,19 @@ class ListViewController: UITableViewController {
            print("Error while fetching data")
         }
         tableView.reloadData()
+    }
+    
+    override func updateModel(at indexPath: IndexPath) {
+        // remove cell
+        self.context.delete(self.listArray[indexPath.row])
+        self.listArray.remove(at: indexPath.row)
+        
+        // save context
+        do {
+            try self.context.save()
+        } catch {
+            print("Error whil saving context")
+        } 
     }
     
     //MARK: - Add List
@@ -88,41 +99,6 @@ class ListViewController: UITableViewController {
         
         let indexPath = tableView.indexPathForSelectedRow!
         destinationVC.selectedList = listArray[indexPath.row]
-    }
-    
-}
-
-//MARK: - SwipeTableViewCell Delegate Methods
-
-extension ListViewController : SwipeTableViewCellDelegate {
-    
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        guard orientation == .right else { return nil }
-
-        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
-            // remove cell
-            self.context.delete(self.listArray[indexPath.row])
-            self.listArray.remove(at: indexPath.row)
-            
-            // save context
-            do {
-                try self.context.save()
-            } catch {
-                print("Error whil saving context")
-            }
-        }
-
-        // customize the action appearance
-        deleteAction.image = UIImage(named: "delete-icon")
-
-        return [deleteAction]
-    }
-    
-    // enable deleting cell by swiping all the way to the left
-    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
-        var options = SwipeOptions()
-        options.expansionStyle = .destructive
-        return options
     }
     
 }
