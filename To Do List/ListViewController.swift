@@ -62,7 +62,7 @@ class ListViewController: UITableViewController {
                 let newList = List(context: self.context)
                 newList.title = textField.text!
                 self.listArray.append(newList)
-                self.saveLists()()
+                self.saveLists()
             }
         }
         
@@ -75,5 +75,16 @@ class ListViewController: UITableViewController {
     }
     
     //MARK: - TableView Delegate Methods
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToTasks", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! ToDoListViewController
+        
+        let indexPath = tableView.indexPathForSelectedRow!
+        destinationVC.selectedList = listArray[indexPath.row]
+    }
     
 }

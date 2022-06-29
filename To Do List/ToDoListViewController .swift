@@ -11,15 +11,18 @@ import CoreData
 class ToDoListViewController: UITableViewController {
     
     var itemArray = [TaskItem]()
+    var selectedList : List? {
+        didSet {
+            loadItems()
+        }
+    }
     
-    let defaults = UserDefaults.standard
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     override func viewDidLoad() {
         super.viewDidLoad()
         let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         print(dataFilePath)
-        loadItems()
     }
 
     //MARK: - tableView delegate methods
@@ -59,6 +62,7 @@ class ToDoListViewController: UITableViewController {
                 let newItem = TaskItem(context: self.context)
                 newItem.text = textField.text!
                 newItem.checked = false
+                newItem.parentList = self.selectedList
                 self.itemArray.append(newItem)
                 self.saveItems()
             }
@@ -85,7 +89,19 @@ class ToDoListViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
-    func loadItems(with request: NSFetchRequest<TaskItem> = TaskItem.fetchRequest()) {
+    func loadItems(with request: NSFetchRequest<TaskItem> = TaskItem.fetchRequest(), predicate: NSPredicate? = nil) {
+        
+        let listPredicate = NSPredicate(format: "parentList.title MATCHES %@", selectedList!.title!)
+        let compoundPredicate : NSCompoundPredicate
+        
+        if (predicate != nil) {
+            compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate!, listPredicate])
+        } else {
+            compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [listPredicate])
+        }
+        
+        request.predicate = compoundPredicate
+        
         do {
             itemArray = try context.fetch(request)
         } catch {
@@ -105,18 +121,13 @@ extension ToDoListViewController: UISearchBarDelegate {
         
         // create request
         let request: NSFetchRequest<TaskItem> = TaskItem.fetchRequest()
-        request.predicate = NSPredicate(format: "text CONTAINS[cd] %@", searchBar.text!)
+        let predicate = NSPredicate(format: "text CONTAINS[cd] %@", searchBar.text!)
         
         // sort data
         request.sortDescriptors = [NSSortDescriptor(key: "text", ascending: true)]
         
         // perform request/query
-        loadItems(with: request)
-        do {
-            itemArray = try context.fetch(request)
-        } catch {
-           print("Error while fetching data")
-        }
+        loadItems(with: request, predicate: predicate)
     }
     
     // reset list to original when "x" is pressed
