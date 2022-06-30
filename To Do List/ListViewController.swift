@@ -30,7 +30,7 @@ class ListViewController: SwipeTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         cell.textLabel?.text = listArray[indexPath.row].title
-        cell.backgroundColor = UIColor.randomFlat()
+        cell.backgroundColor = UIColor(hexString: listArray[indexPath.row].color!)
         return cell
     }
     
@@ -78,6 +78,7 @@ class ListViewController: SwipeTableViewController {
             if (textField.text != "") {
                 let newList = List(context: self.context)
                 newList.title = textField.text!
+                newList.color = UIColor.randomFlat().hexValue()
                 self.listArray.append(newList)
                 self.saveLists()
             }
