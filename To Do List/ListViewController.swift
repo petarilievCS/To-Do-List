@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import ChameleonFramework
 
 class ListViewController: SwipeTableViewController {
     
@@ -17,6 +18,7 @@ class ListViewController: SwipeTableViewController {
         super.viewDidLoad()
         loadLists()
         tableView.rowHeight = 85.0
+        tableView.separatorStyle = .none
     }
     
     //MARK: - TableView Datasource Methods
@@ -28,6 +30,7 @@ class ListViewController: SwipeTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         cell.textLabel?.text = listArray[indexPath.row].title
+        cell.backgroundColor = UIColor.randomFlat()
         return cell
     }
     
