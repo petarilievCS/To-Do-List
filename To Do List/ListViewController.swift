@@ -31,6 +31,7 @@ class ListViewController: SwipeTableViewController {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         cell.textLabel?.text = listArray[indexPath.row].title
         cell.backgroundColor = UIColor(hexString: listArray[indexPath.row].color!)
+        cell.textLabel?.textColor = ContrastColorOf(cell.backgroundColor!, returnFlat: true) 
         return cell
     }
     

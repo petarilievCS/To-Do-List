@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import ChameleonFramework
 
 class ToDoListViewController: SwipeTableViewController {
     
@@ -22,6 +23,7 @@ class ToDoListViewController: SwipeTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = 80.0
+        tableView.separatorStyle = .none
     }
 
     //MARK: - tableView delegate methods
@@ -35,6 +37,15 @@ class ToDoListViewController: SwipeTableViewController {
         let taskItem = itemArray[indexPath.row]
         cell.textLabel?.text = taskItem.text
         cell.accessoryType = taskItem.checked ? .checkmark : .none
+        
+        // set color of cell
+        let darkeningPercent = CGFloat(indexPath.row) / CGFloat(itemArray.count)
+        let listColor = UIColor(hexString: (selectedList?.color)!)
+        cell.backgroundColor = listColor!.darken(byPercentage: darkeningPercent)
+        
+        // set text color
+        cell.textLabel?.textColor = ContrastColorOf(cell.backgroundColor!, returnFlat: true)
+        
         return cell
     }
     
