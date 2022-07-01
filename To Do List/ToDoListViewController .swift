@@ -11,6 +11,8 @@ import ChameleonFramework
 
 class ToDoListViewController: SwipeTableViewController {
     
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     var itemArray = [TaskItem]()
     var selectedList : List? {
         didSet {
@@ -31,18 +33,28 @@ class ToDoListViewController: SwipeTableViewController {
         title = selectedList?.title
         
         // set color of navigation bar
+        let navBar = navigationController?.navigationBar
+        var navBarColor = UIColor.flatSkyBlueDark()
+        
         let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.configureWithOpaqueBackground()
         navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
         navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         
         if let colorHex = selectedList?.color {
-            navBarAppearance.backgroundColor = UIColor(hexString: colorHex)
+            navBarColor = UIColor(hexString: colorHex)!
+            navBarAppearance.backgroundColor = navBarColor
         }
         
-        navigationController?.navigationBar.standardAppearance = navBarAppearance
-        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        navBar!.standardAppearance = navBarAppearance
+        navBar!.scrollEdgeAppearance = navBarAppearance
         
+        // set color of button and title
+        navBar!.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
+        navBar!.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : ContrastColorOf(navBarColor, returnFlat: true)]
+        
+        // set search bar color
+        searchBar.barTintColor = navBarColor
     }
 
     //MARK: - tableView delegate methods
