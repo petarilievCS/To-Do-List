@@ -89,7 +89,6 @@ class ListViewController: SwipeTableViewController {
             if (textField.text != "") {
                 let newList = List(context: self.context)
                 newList.title = textField.text!
-                newList.color = UIColor.flatSkyBlueDark().hexValue()
                 self.listArray.append(newList)
                 self.saveLists()
             }

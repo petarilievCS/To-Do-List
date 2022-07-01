@@ -34,8 +34,9 @@ class ToDoListViewController: SwipeTableViewController {
         
         // set color of navigation bar
         let navBar = navigationController?.navigationBar
-        var navBarColor = UIColor.flatSkyBlueDark()
+        let navBarColor = UIColor.flatSkyBlueDark()
         
+        // set appearance of navigation bar
         let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.configureWithOpaqueBackground()
         navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
@@ -46,8 +47,7 @@ class ToDoListViewController: SwipeTableViewController {
         navBar!.scrollEdgeAppearance = navBarAppearance
         
         // set color of button and title
-        navBar!.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
-        navBar!.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : ContrastColorOf(navBarColor, returnFlat: true)]
+        navBar!.tintColor = UIColor.white
         
         // set search bar color
         searchBar.barTintColor = navBarColor
@@ -73,10 +73,6 @@ class ToDoListViewController: SwipeTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // delete items from CoreData
-        // context.delete(itemArray[indexPath.row])
-        // itemArray.remove(at: indexPath.row)
-        
         itemArray[indexPath.row].checked = !(itemArray[indexPath.row].checked)
         saveItems()
         tableView.deselectRow(at: indexPath, animated: true)
@@ -163,7 +159,6 @@ class ToDoListViewController: SwipeTableViewController {
 extension ToDoListViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
         // create request
         let request: NSFetchRequest<TaskItem> = TaskItem.fetchRequest()
         let predicate = NSPredicate(format: "text CONTAINS[cd] %@", searchBar.text!)
