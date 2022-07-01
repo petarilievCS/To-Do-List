@@ -29,7 +29,7 @@ class ToDoListViewController: SwipeTableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        // set title
+         // set title
         title = selectedList?.title
         
         // set color of navigation bar
@@ -40,11 +40,7 @@ class ToDoListViewController: SwipeTableViewController {
         navBarAppearance.configureWithOpaqueBackground()
         navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
         navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        
-        if let colorHex = selectedList?.color {
-            navBarColor = UIColor(hexString: colorHex)!
-            navBarAppearance.backgroundColor = navBarColor
-        }
+        navBarAppearance.backgroundColor = navBarColor
         
         navBar!.standardAppearance = navBarAppearance
         navBar!.scrollEdgeAppearance = navBarAppearance

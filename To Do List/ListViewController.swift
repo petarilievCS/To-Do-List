@@ -26,7 +26,7 @@ class ListViewController: SwipeTableViewController {
         navBarAppearance.configureWithOpaqueBackground()
         navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
         navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        navBarAppearance.backgroundColor = UIColor.flatSkyBlueDark()
+        navBarAppearance.backgroundColor = UIColor.flatPurple()
         navigationController?.navigationBar.standardAppearance = navBarAppearance
         navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
     }
@@ -89,7 +89,7 @@ class ListViewController: SwipeTableViewController {
             if (textField.text != "") {
                 let newList = List(context: self.context)
                 newList.title = textField.text!
-                newList.color = UIColor.randomFlat().hexValue()
+                newList.color = UIColor.flatSkyBlueDark().hexValue()
                 self.listArray.append(newList)
                 self.saveLists()
             }
