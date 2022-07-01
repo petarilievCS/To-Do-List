@@ -18,7 +18,17 @@ class ListViewController: SwipeTableViewController {
         super.viewDidLoad()
         loadLists()
         tableView.rowHeight = 85.0
-        tableView.separatorStyle = .none
+        // tableView.separatorStyle = .none
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithOpaqueBackground()
+        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        navBarAppearance.backgroundColor = UIColor.flatSkyBlueDark()
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
     }
     
     //MARK: - TableView Datasource Methods
@@ -30,7 +40,7 @@ class ListViewController: SwipeTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         cell.textLabel?.text = listArray[indexPath.row].title
-        cell.backgroundColor = UIColor(hexString: listArray[indexPath.row].color!)
+        cell.backgroundColor = UIColor.flatBlack()
         cell.textLabel?.textColor = ContrastColorOf(cell.backgroundColor!, returnFlat: true) 
         return cell
     }
@@ -97,6 +107,7 @@ class ListViewController: SwipeTableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "goToTasks", sender: self)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

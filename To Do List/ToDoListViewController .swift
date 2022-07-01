@@ -25,6 +25,25 @@ class ToDoListViewController: SwipeTableViewController {
         tableView.rowHeight = 80.0
         tableView.separatorStyle = .none
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // set title
+        title = selectedList?.title
+        
+        // set color of navigation bar
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithOpaqueBackground()
+        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        
+        if let colorHex = selectedList?.color {
+            navBarAppearance.backgroundColor = UIColor(hexString: colorHex)
+        }
+        
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        
+    }
 
     //MARK: - tableView delegate methods
     
