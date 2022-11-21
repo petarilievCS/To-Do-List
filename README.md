@@ -3,5 +3,5 @@ iOS application that allows users to create their own to-do lists and add tasks 
 
 # Demo
 
-<img src="https://user-images.githubusercontent.com/90746623/203139315-2a8ac5d0-ca8e-4e4e-8f8b-8c2d82299bd1.gif" width="296" height="640"/>
+<img src="https://user-images.githubusercontent.com/90746623/181342006-ccc13912-ef0c-4d86-8463-6fd7d6e359cb.gif" width="296" height="640"/>
 
